@@ -42,7 +42,7 @@ def get_data(file_name):
 
 if __name__ == '__main__':
 
-    directory = 'J_xx'
+    directory = 'J_yy'
 
     dir_str_len = len(directory)
 
