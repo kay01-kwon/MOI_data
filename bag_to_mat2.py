@@ -1,9 +1,8 @@
 import os, fnmatch
 import rosbag
-from ros_libcanard.msg import actual_rpm
-from sensor_msgs.msg import Imu
 import numpy as np
 import scipy.io
+from scipy import interpolate
 
 def find_files(directory):
     file_names = []
@@ -20,67 +19,46 @@ def get_data(file_name):
     bag = rosbag.Bag(file_name)
 
     # Actual data to store
-    actual_rpm_secs = []
-    actual_rpm_nsecs = []
-    actual_rpm1 = []
-    actual_rpm2 = []
-    actual_rpm3 = []
-    actual_rpm4 = []
+    actual_rpm_time = []
+    actual_rpm_data = []
 
-    for topic, msg, time in bag.read_messages(topics=['/actual_rpm']):
-        actual_rpm_secs.append(msg.stamp.secs)
-        actual_rpm_nsecs.append(msg.stamp.nsecs)
-        actual_rpm1.append(msg.rpm[0])
-        actual_rpm2.append(msg.rpm[1])
-        actual_rpm3.append(msg.rpm[2])
-        actual_rpm4.append(msg.rpm[3])
+    imu_time = []
+    imu_quaternion = []
+    imu_angular_velocity = []
 
-    actual_rpm_dict = {'actual_rpm_secs': actual_rpm_secs,
-                         'actual_rpm_nsecs': actual_rpm_nsecs,
-                         'actual_rpm1': actual_rpm1,
-                         'actual_rpm2': actual_rpm2,
-                         'actual_rpm3': actual_rpm3,
-                         'actual_rpm4': actual_rpm4
-                         }
+    for topic, msg, time in bag.read_messages(topics=['/actual_rpm', '/mavros/imu/data']):
 
-    imu_secs = []
-    imu_nsecs = []
+        if topic == '/actual_rpm':
+            actual_rpm_time.append(time.to_sec())
+            actual_rpm_data.append([msg.rpm[0], msg.rpm[1], msg.rpm[2], msg.rpm[3]])
+        elif topic == '/mavros/imu/data':
+            imu_time.append(time.to_sec())
+            imu_quaternion.append([msg.orientation.w,
+                                   msg.orientation.x,
+                                   msg.orientation.y,
+                                   msg.orientation.z])
+            imu_angular_velocity.append([msg.angular_velocity.x,
+                                         msg.angular_velocity.y,
+                                         msg.angular_velocity.z])
 
-    imu_qw = []
-    imu_qx = []
-    imu_qy = []
-    imu_qz = []
+    actual_rpm_time_array = np.array(actual_rpm_time)
+    actual_rpm_data_array = np.array(actual_rpm_data)
+    imu_time_array = np.array(imu_time)
+    imu_quaternion_array = np.array(imu_quaternion)
+    imu_angular_velocity_array = np.array(imu_angular_velocity)
 
-    imu_wx = []
-    imu_wy = []
-    imu_wz = []
+    # Interpolate RPM data to match IMU timestamps
+    interp_rpm = interpolate.interp1d(actual_rpm_time_array, actual_rpm_data_array, axis=0, fill_value='extrapolate')
+    syncronized_rpm = interp_rpm(imu_time_array)
 
-    for topic, msg, time in bag.read_messages(topics=['/mavros/imu/data']):
-        imu_secs.append(msg.header.stamp.secs)
-        imu_nsecs.append(msg.header.stamp.nsecs)
-
-        imu_qw.append(msg.orientation.w)
-        imu_qx.append(msg.orientation.x)
-        imu_qy.append(msg.orientation.y)
-        imu_qz.append(msg.orientation.z)
-
-        imu_wx.append(msg.angular_velocity.x)
-        imu_wy.append(msg.angular_velocity.y)
-        imu_wz.append(msg.angular_velocity.z)
-
-    imu_data_dict = {'imu_secs': imu_secs,
-                     'imu_nsecs': imu_nsecs,
-                     'imu_qw': imu_qw,
-                     'imu_qx': imu_qx,
-                     'imu_qy': imu_qy,
-                     'imu_qz': imu_qz,
-                     'imu_wx': imu_wx,
-                     'imu_wy': imu_wy,
-                     'imu_wz': imu_wz}
+    data_dict = {'imu_time': imu_time_array,
+                 'imu_quaternion': imu_quaternion_array,
+                 'imu_angular_velocity': imu_angular_velocity_array,
+                 'rpm_data': syncronized_rpm}
 
     bag.close()
 
-    return actual_rpm_dict, imu_data_dict
+    return data_dict
 
 if __name__ == '__main__':
 
