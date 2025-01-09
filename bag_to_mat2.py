@@ -12,7 +12,6 @@ def find_files(directory):
             if fnmatch.fnmatch(name, '*.bag'):
                 file_names.append(directory + '/' + name)
                 print(directory+'/'+name)
-
     return file_names
 
 def get_data(file_name):
