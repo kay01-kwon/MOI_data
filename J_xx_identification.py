@@ -92,7 +92,6 @@ if __name__ == '__main__':
     avg_peak_time = 0
 
     natual_freq_0 = []
-    natual_freq_weight = []
 
     j = 0
 

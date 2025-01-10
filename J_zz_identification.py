@@ -164,7 +164,7 @@ print('natual frequency for Jzz: ', natual_freq_0)
 print('natual frequency for Jzz + alpha: ', natual_freq_weight)
 
 J_alpha = 2518.74e-6
-m = 0.440
+m = 0.510
 l = 0.308/2.0
 
 J_alpha_COM = 2*(J_alpha + m * l**2)
