@@ -109,7 +109,7 @@ class BagToDataDict:
 
 # How to use BagToDataDict object
 if __name__ == '__main__':
-    directory = 'bag/y_z_COM'
+    directory = 'bag/x_z_COM'
     BagToDataObj = BagToDataDict(directory)
     file_names = BagToDataObj.find_file_names()
 
@@ -118,18 +118,13 @@ if __name__ == '__main__':
     l = 0.330/2.0
 
     # System parameter
-    m0 = 2.190
+    m = 2.190
     g = 9.81
-    m_added = 0.510
-    m1 = m0 + m_added
 
-    W0 = m0*g
-    W1 = m1*g
-    Mx_avg_list0 = []
-    Mx_avg_list1 = []
+    W = m*g
+    My_avg_list = []
 
-    phi_avg_list0 = []
-    phi_avg_list1 = []
+    theta_avg_list = []
 
     for file_name in file_names:
         # print(file_name)
@@ -145,8 +140,8 @@ if __name__ == '__main__':
         qy = data_dict['imu_quaternion'][:,2]
         qz = data_dict['imu_quaternion'][:,3]
 
-        phi = []
-        Mx = []
+        theta = []
+        My = []
 
         is_initialized = False
 
@@ -155,30 +150,30 @@ if __name__ == '__main__':
 
         # Append roll angle
         for i in range(len(data_dict['imu_time'])):
-            phi_temp = np.arctan2(2*(qw[i]*qx[i]+qy[i]*qz[i]),
-                                  1-2*(qx[i]*qx[i]+qy[i]*qy[i]))
-            phi_temp = phi_temp*180/np.pi
-            phi.append(phi_temp)
+            theta_temp = (-np.pi/2
+                          + 2*np.arctan2(
+                np.sqrt(1+2*(qw[i]*qy[i] - qx[i]*qz[i])),
+                np.sqrt(1-2*(qw[i]*qy[i] - qx[i]*qz[i]))
+                    )
+                )
+            theta_temp = theta_temp * 180 / np.pi
+            theta.append(theta_temp)
 
         # Append the data of moment along x
         for i in range(len(data_dict['actual_rpm_time'])):
-            Mx_temp = l*C_T*(
-                data_dict['actual_rpm'][i,0]**2
+            My_temp = l*C_T*(
+                - data_dict['actual_rpm'][i,0]**2
                 - data_dict['actual_rpm'][i,1]**2
-                - data_dict['actual_rpm'][i,2]**2
+                + data_dict['actual_rpm'][i,2]**2
                 + data_dict['actual_rpm'][i,3]**2
             )
-            Mx.append(Mx_temp)
+            My.append(My_temp)
 
-        phi_avg = np.average(phi, axis=0)
-        Mx_avg = np.average(Mx, axis=0)
+        theta_avg = np.average(theta, axis=0)
+        My_avg = np.average(My, axis=0)
 
-        if 'weight' not in file_name:
-            phi_avg_list0.append(phi_avg)
-            Mx_avg_list0.append(Mx_avg)
-        else:
-            phi_avg_list1.append(phi_avg)
-            Mx_avg_list1.append(Mx_avg)
+        theta_avg_list.append(theta_avg)
+        My_avg_list.append(My_avg)
 
 
         # plt.plot(time, phi, label='phi')
@@ -189,69 +184,40 @@ if __name__ == '__main__':
         # plt.show()
 
     NC = 2
-    NR0 = len(phi_avg_list0)
-    NR1 = len(phi_avg_list1)
+    NR = len(theta_avg_list)
 
-    A0 = []
-    A1 = []
+    A = []
 
-    for i in range(NR0):
+    for i in range(NR):
         row = []
-        row.append([W0*np.cos(np.deg2rad(phi_avg_list0[i])),
-                    -W0*np.sin(np.deg2rad(phi_avg_list0[i]))])
-        A0.append(row)
+        row.append([-W*np.cos(np.deg2rad(theta_avg_list[i])),
+                    -W*np.sin(np.deg2rad(theta_avg_list[i]))])
+        A.append(row)
 
-    for i in range(NR1):
-        row = []
-        row.append([W1 * np.cos(np.deg2rad(phi_avg_list1[i])),
-                    -W1 * np.sin(np.deg2rad(phi_avg_list1[i]))])
-        A1.append(row)
-
-    A_mat0 = np.array(A0).reshape(NR0,NC)
-    Mx_vec0 = np.array(Mx_avg_list0).reshape(-1,1)
-
-    A_mat1 = np.array(A1).reshape(NR1, NC)
-    Mx_vec1 = np.array(Mx_avg_list1).reshape(-1, 1)
+    A_mat = np.array(A).reshape(NR,NC)
+    My_vec = np.array(My_avg_list).reshape(-1,1)
 
     # print(A_mat0)
-    print(A_mat0.shape)
-    print(Mx_vec0.shape)
-    y_z_est0 = inv(np.transpose(A_mat0) @ A_mat0) @ np.transpose(A_mat0) @ Mx_vec0
-    y_z_est1 = inv(np.transpose(A_mat1) @ A_mat1) @ np.transpose(A_mat1) @ Mx_vec1
+    print(A_mat.shape)
+    print(My_vec.shape)
+    x_z_est = inv(np.transpose(A_mat) @ A_mat) @ np.transpose(A_mat) @ My_vec
 
-    print('Estimated y_COM: ', y_z_est0[0]*1000,'mm')
-    print('Estimated z_COM: ', y_z_est0[1]*1000,'mm')
-
-    print('After weight added')
-
-    print('Estimated y_COM: ', y_z_est1[0]*1000,'mm')
-    print('Estimated z_COM: ', y_z_est1[1]*1000,'mm')
-
-    # Theoretical z_COM
-    L_added = -0.200
-    z_COM_theory = (m0*y_z_est0[1] + m_added*L_added)/(m0 + m_added)
-    print('Theoretical z_COM: ', z_COM_theory*1000,' mm')
-
-    # Error between Theoretical z_COM and Experimental z_COM
-    error = y_z_est1[1] - z_COM_theory
-    print('Error: ', error*1000, ' mm')
+    print('Estimated x_COM: ', x_z_est[0]*1000,'mm')
+    print('Estimated z_COM: ', x_z_est[1]*1000,'mm')
 
     # Data : Convert list to np.array
-    phi_avg_array = np.array(phi_avg_list0)
-    Mx_array = np.array(Mx_avg_list0)
+    theta_avg_array = np.array(theta_avg_list)
+    My_array = np.array(My_avg_list)
 
     # Prediction Storage
-    phi_domain = np.linspace(-40,40,100)
-    tau_predicted = (W0*y_z_est0[0]*np.cos(np.deg2rad(phi_domain))
-                     - W0*y_z_est0[1]*np.sin(np.deg2rad(phi_domain)))
+    theta_domain = np.linspace(-60,50,100)
+    tau_predicted = (-W*x_z_est[0]*np.cos(np.deg2rad(theta_domain))
+                     - W*x_z_est[1]*np.sin(np.deg2rad(theta_domain)))
 
-
-    plt.plot(phi_avg_list0, Mx_array*1000, 'x', label='Data')
-    plt.plot(phi_domain, tau_predicted*1000, label='Predicted')
-    plt.xlabel(r'$\phi$ (deg)')
+    plt.plot(theta_avg_list, My_array*1000, 'x', label='Data')
+    plt.plot(theta_domain, tau_predicted*1000, label='Predicted')
+    plt.xlabel(r'$\theta$ (deg)')
     plt.ylabel(r'$\tau$ (mNm)')
     plt.legend()
     plt.grid('True')
     plt.show()
-
-

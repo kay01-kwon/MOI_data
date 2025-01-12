@@ -171,6 +171,5 @@ J_alpha_COM = 2*(J_alpha + m * l**2)
 
 J_zz = natual_freq_weight**2 / (natual_freq_0**2 - natual_freq_weight**2) * J_alpha_COM
 
-print('J_zz estimated: ', J_zz)
 
-
+print('J_{zz}: ', J_zz, r'kg*m^2')

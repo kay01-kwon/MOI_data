@@ -2,7 +2,7 @@ import os, fnmatch
 import rosbag
 import numpy as np
 import matplotlib.pyplot as plt
-from sympy import symbols, latex
+from scipy import interpolate
 from scipy.signal import find_peaks
 
 class BagToDataDict:
@@ -85,7 +85,7 @@ class BagToDataDict:
 
 # How to use BagToDataDict object
 if __name__ == '__main__':
-    directory = 'bag/J_xx_data_imu_only'
+    directory = 'bag/J_yy_data_imu_only'
     BagToDataObj = BagToDataDict(directory)
     file_names = BagToDataObj.find_file_names()
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
         qy = data_dict['imu_quaternion'][:,2]
         qz = data_dict['imu_quaternion'][:,3]
 
-        phi = []
+        theta = []
 
         is_initialized = False
 
@@ -117,11 +117,14 @@ if __name__ == '__main__':
 
         for i in range(len(data_dict['imu_time'])):
 
-            phi_temp = np.arctan2(2*(qw[i]*qx[i]+qy[i]*qz[i]),
-                                  1-2*(qx[i]*qx[i]+qy[i]*qy[i]))
-            phi.append(phi_temp)
+            theta_temp = (-np.pi/2
+                          + 2*np.arctan2(
+                np.sqrt(1+2*(qw[i]*qy[i] -qx[i]*qz[i])),
+                np.sqrt(1-2*(qw[i]*qy[i] -qx[i]*qz[i])))
+                )
+            theta.append(theta_temp)
 
-        peak_indices, _ = find_peaks(phi, height = 0)
+        peak_indices, _ = find_peaks(theta, height = -0.18)
 
         print(peak_indices)
 
@@ -141,12 +144,12 @@ if __name__ == '__main__':
         natual_freq_0.append(w_n)
 
         if np.mod(j,10) == 0:
-            plt.plot(time,phi)
+            plt.plot(time,theta)
 
             for peak_index in peak_indices:
-                plt.plot(time[peak_index],phi[peak_index],'x')
+                plt.plot(time[peak_index],theta[peak_index],'x')
 
-            plt.title(r'$\phi$')
+            plt.title('Theta')
             plt.grid('True')
             plt.show()
 
@@ -155,12 +158,12 @@ if __name__ == '__main__':
 natural_freq_avg = np.average(natual_freq_0)
 
 
-print('natual frequency for Jxx: ', natual_freq_0)
+print('natual frequency for Jyy: ', natual_freq_0)
 
 m = 2.190
 g = 9.81
 r = 0.0236
 mgr = m*g*r
 
-J_xx = mgr/natural_freq_avg**2
-print('J_{xx}: ', J_xx, r'kg*m^2')
+J_yy = mgr/natural_freq_avg**2
+print('J_{yy}: ', J_yy, r'kg*m^2')
