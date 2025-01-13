@@ -38,13 +38,6 @@ class BagToDataDict:
         bag_file_dir = self.directory + '/' + file_name
         bag = rosbag.Bag(bag_file_dir)
 
-        # Actual data list to store
-        actual_rpm_time = []
-        actual_rpm_data = []
-
-        cmd_raw_time = []
-        cmd_raw_data = []
-
         # IMU data list to store
         imu_time = []
         imu_quaternion = []
@@ -119,6 +112,7 @@ if __name__ == '__main__':
 
             phi_temp = np.arctan2(2*(qw[i]*qx[i]+qy[i]*qz[i]),
                                   1-2*(qx[i]*qx[i]+qy[i]*qy[i]))
+            phi_temp = phi_temp*180.0/np.pi
             phi.append(phi_temp)
 
         peak_indices, _ = find_peaks(phi, height = 0)
@@ -135,20 +129,30 @@ if __name__ == '__main__':
         print('The number of peaks:',len(peak_indices)-2)
         print('natural frequency: ', w_n)
         print('******************************************************')
-        # plt.grid('True')
-        # plt.show()
+
 
         natual_freq_0.append(w_n)
 
         if np.mod(j,10) == 0:
-            plt.plot(time,phi)
+            plt.plot(time,phi, label = 'Raw data')
 
+            Num_of_peaks = len(peak_indices)
+            phi_peak = np.zeros(Num_of_peaks)
+            time_peak = np.zeros(Num_of_peaks)
+
+            i = 0
             for peak_index in peak_indices:
-                plt.plot(time[peak_index],phi[peak_index],'x')
+                phi_peak[i] = phi[peak_index]
+                time_peak[i] = time[peak_index]
+                i = i + 1
 
-            plt.title(r'$\phi$')
+            plt.plot(time_peak, phi_peak,'*',color='r', label=r'$\phi_{peak}$')
+            plt.title(r'$\phi$ - time')
+            plt.xlabel('time (s)')
+            plt.ylabel(r'$\phi$ (deg)')
+            plt.legend()
             plt.grid('True')
-            plt.show()
+            plt.savefig('J_xx_id.png', dpi=600)
 
         j+=1
 
@@ -159,7 +163,7 @@ print('natual frequency for Jxx: ', natual_freq_0)
 
 m = 2.190
 g = 9.81
-r = 0.0236
+r = np.sqrt((-0.1475548e-3)**2 + (-23.13594413e-3)**2)
 mgr = m*g*r
 
 J_xx = mgr/natural_freq_avg**2

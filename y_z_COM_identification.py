@@ -114,7 +114,7 @@ if __name__ == '__main__':
     file_names = BagToDataObj.find_file_names()
 
     # Thrust parameter
-    C_T = 1.465e-7
+    C_T = 1.46557465e-07
     l = 0.330/2.0
 
     # System parameter
@@ -246,12 +246,13 @@ if __name__ == '__main__':
                      - W0*y_z_est0[1]*np.sin(np.deg2rad(phi_domain)))
 
 
-    plt.plot(phi_avg_list0, Mx_array*1000, 'x', label='Data')
-    plt.plot(phi_domain, tau_predicted*1000, label='Predicted')
+    plt.plot(phi_avg_list0, Mx_array*1000, 'x', label=r'$\tau_{x, data}$')
+    plt.plot(phi_domain, tau_predicted*1000, label=r'$\tau_{y, pred}$')
+    plt.title(r'$\tau_{x}$ - $\phi$')
     plt.xlabel(r'$\phi$ (deg)')
-    plt.ylabel(r'$\tau$ (mNm)')
+    plt.ylabel(r'$\tau_{x}$ (mNm)')
     plt.legend()
     plt.grid('True')
-    plt.show()
+    plt.savefig('y_z_COM.png',dpi=600)
 
 

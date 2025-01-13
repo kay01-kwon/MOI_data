@@ -122,6 +122,7 @@ if __name__ == '__main__':
                 np.sqrt(1+2*(qw[i]*qy[i] -qx[i]*qz[i])),
                 np.sqrt(1-2*(qw[i]*qy[i] -qx[i]*qz[i])))
                 )
+            theta_temp = theta_temp*180.0/np.pi
             theta.append(theta_temp)
 
         peak_indices, _ = find_peaks(theta, height = -0.18)
@@ -146,12 +147,24 @@ if __name__ == '__main__':
         if np.mod(j,10) == 0:
             plt.plot(time,theta)
 
-            for peak_index in peak_indices:
-                plt.plot(time[peak_index],theta[peak_index],'x')
+            i = 0
+            Num_of_peaks = len(peak_indices)
+            theta_peak = np.zeros(Num_of_peaks)
+            time_peak = np.zeros(Num_of_peaks)
 
-            plt.title('Theta')
+            for peak_index in peak_indices:
+                theta_peak[i] = theta[peak_index]
+                time_peak[i] = time[peak_index]
+                i = i + 1
+
+            plt.plot(time_peak, theta_peak,'*',color='r', label=r'$\theta_{peak}$')
+
+            plt.title(r'$\theta$ - time')
+            plt.xlabel('time (s)')
+            plt.ylabel(r'$\theta$ (deg)')
+            plt.legend()
             plt.grid('True')
-            plt.show()
+            plt.savefig('J_yy_id.png',dpi=600)
 
         j+=1
 
@@ -162,7 +175,7 @@ print('natual frequency for Jyy: ', natual_freq_0)
 
 m = 2.190
 g = 9.81
-r = 0.0236
+r = np.sqrt((-5.2505436e-3)**2 + (-24.17454555e-3)**2)
 mgr = m*g*r
 
 J_yy = mgr/natural_freq_avg**2

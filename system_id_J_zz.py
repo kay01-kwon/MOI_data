@@ -98,4 +98,3 @@ if __name__ == '__main__':
         data_dict = get_data(directory + '/' + file_name)
         plt.plot(data_dict['imu_time'], data_dict['imu_angular_velocity'][:,2])
         plt.show()
-

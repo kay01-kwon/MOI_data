@@ -2,7 +2,6 @@ import os, fnmatch
 import rosbag
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import interpolate
 from scipy.signal import find_peaks
 
 class BagToDataDict:
@@ -37,13 +36,6 @@ class BagToDataDict:
         # Directory of bag file
         bag_file_dir = self.directory + '/' + file_name
         bag = rosbag.Bag(bag_file_dir)
-
-        # Actual data list to store
-        actual_rpm_time = []
-        actual_rpm_data = []
-
-        cmd_raw_time = []
-        cmd_raw_data = []
 
         # IMU data list to store
         imu_time = []
@@ -96,8 +88,11 @@ if __name__ == '__main__':
 
     j = 0
 
+    k = 1
+
+    plt.figure(figsize=(6, 10))
+
     for file_name in file_names:
-        # print(file_name)
         data_dict = BagToDataObj.get_data(file_name)
 
         t0 = data_dict['imu_time'][0]
@@ -117,9 +112,9 @@ if __name__ == '__main__':
 
 
         for i in range(len(data_dict['imu_time'])):
-
             psi_temp = np.arctan2(2*(qw[i]*qz[i]+qx[i]*qy[i]),
                                   1-2*(qy[i]*qy[i]+qz[i]*qz[i]))
+            psi_temp = psi_temp*180.0/np.pi
             psi.append(psi_temp)
 
         peak_indices, _ = find_peaks(psi, height = 0)
@@ -145,14 +140,28 @@ if __name__ == '__main__':
             natual_freq_weight.append(w_n)
 
         if np.mod(j,10) == 0:
+            plt.subplot(2,1,k)
             plt.plot(time,psi)
+            k = k + 1
+
+            Num_of_peaks = len(peak_indices)
+            psi_peak = np.zeros(Num_of_peaks)
+            time_peak = np.zeros(Num_of_peaks)
+
+            i = 0
 
             for peak_index in peak_indices:
-                plt.plot(time[peak_index],psi[peak_index],'x')
+                psi_peak[i] = psi[peak_index]
+                time_peak[i] = time[peak_index]
+                i = i + 1
 
-            plt.title('Psi')
+            plt.plot(time_peak, psi_peak, '*', color='r', label=r'$\psi_{peak}$')
+            plt.title(r'$\psi$ - time')
+            plt.xlabel('time (s)')
+            plt.ylabel(r'$\psi$ (deg)')
             plt.grid('True')
-            plt.show()
+            plt.legend()
+            plt.savefig('J_zz_id.png', dpi=600)
 
         j+=1
 
@@ -168,8 +177,6 @@ m = 0.510
 l = 0.308/2.0
 
 J_alpha_COM = 2*(J_alpha + m * l**2)
-
 J_zz = natual_freq_weight**2 / (natual_freq_0**2 - natual_freq_weight**2) * J_alpha_COM
-
 
 print('J_{zz}: ', J_zz, r'kg*m^2')

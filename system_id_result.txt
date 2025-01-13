@@ -1,0 +1,313 @@
+
+************** COM identification **************
+Estimated x_COM:  [-5.2505436] mm
+Estimated z_COM:  [-24.17454555] mm
+
+Estimated y_COM:  [-0.1475548] mm
+Estimated z_COM:  [-23.13594413] mm
+
+************** MOI identification **************
+J_{xx}:  0.02291759177420681 kg*m^2
+J_{yy}:  0.0255469808188296 kg*m^2
+J_{zz}:  0.04144386955845343 kg*m^2
+
+
+
+Jxx
+Number of files: 10
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_01.bag
+[ 81 224 361 496 629 761]
+Time diff avg: 5.37187647819519
+The number of peaks: 4
+natural frequency:  4.6785776498647795
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_02.bag
+[ 89 232 372 508 642 774]
+Time diff avg: 5.416741847991943
+The number of peaks: 4
+natural frequency:  4.639826289309943
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_03.bag
+[ 80 222 359 494 628 760]
+Time diff avg: 5.380233287811279
+The number of peaks: 4
+natural frequency:  4.671310681946756
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_04.bag
+[ 69 207 343 476 608]
+Time diff avg: 4.009730339050293
+The number of peaks: 3
+natural frequency:  4.700953512500615
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_05.bag
+[ 84 228 367 503 638 770]
+Time diff avg: 5.4197657108306885
+The number of peaks: 4
+natural frequency:  4.637237579937057
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_06.bag
+[ 71 210 346 480 612]
+Time diff avg: 4.018236398696899
+The number of peaks: 3
+natural frequency:  4.691002233629561
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_07.bag
+[ 88 231 369 505 639 772]
+Time diff avg: 5.409545660018921
+The number of peaks: 4
+natural frequency:  4.6459985381897
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_08.bag
+[ 76 217 354 489 622 754]
+Time diff avg: 5.372189283370972
+The number of peaks: 4
+natural frequency:  4.678305231447077
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_09.bag
+[ 81 223 362 498 632]
+Time diff avg: 4.089848041534424
+The number of peaks: 3
+natural frequency:  4.608864615533933
+******************************************************
+******************************************************
+Reading bag file: bag/J_xx_data_imu_only/imu_10.bag
+[ 78 220 358 494 628]
+Time diff avg: 4.0805113315582275
+The number of peaks: 3
+natural frequency:  4.61941026257135
+******************************************************
+natual frequency for Jxx:  [4.6785776498647795, 4.639826289309943, 4.671310681946756, 4.700953512500615, 4.637237579937057, 4.691002233629561, 4.6459985381897, 4.678305231447077, 4.608864615533933, 4.61941026257135]
+J_{xx}:  0.02291759177420681 kg*m^2
+
+
+Jyy
+Number of files: 10
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_01.bag
+[134 273 411 548]
+Time diff avg: 2.750890016555786
+The number of peaks: 2
+natural frequency:  4.568110880017197
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_02.bag
+[  6 148 286 423 560]
+Time diff avg: 4.130721807479858
+The number of peaks: 3
+natural frequency:  4.56325959482583
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_03.bag
+[  1 141 280 417 553]
+Time diff avg: 4.1293275356292725
+The number of peaks: 3
+natural frequency:  4.564800384299439
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_04.bag
+[  5 146 285 423 560]
+Time diff avg: 4.137416839599609
+The number of peaks: 3
+natural frequency:  4.555875477937796
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_05.bag
+[  5 147 287 425 562 701]
+Time diff avg: 5.53790020942688
+The number of peaks: 4
+natural frequency:  4.538316018395598
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_06.bag
+[ 11 152 291 429 565 704]
+Time diff avg: 5.525572776794434
+The number of peaks: 4
+natural frequency:  4.54844090268207
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_07.bag
+[137 275 412 550]
+Time diff avg: 2.7475244998931885
+The number of peaks: 2
+natural frequency:  4.573706481906784
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_08.bag
+[  5 146 284 422 559]
+Time diff avg: 4.126607418060303
+The number of peaks: 3
+natural frequency:  4.567809343588813
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_09.bag
+[137 275 412 549 687]
+Time diff avg: 4.127607822418213
+The number of peaks: 3
+natural frequency:  4.566702248009478
+******************************************************
+******************************************************
+Reading bag file: bag/J_yy_data_imu_only/imu_10.bag
+[  4 145 283 421 558]
+Time diff avg: 4.129982948303223
+The number of peaks: 3
+natural frequency:  4.564075967742912
+******************************************************
+natual frequency for Jyy:  [4.568110880017197, 4.56325959482583, 4.564800384299439, 4.555875477937796, 4.538316018395598, 4.54844090268207, 4.573706481906784, 4.567809343588813, 4.566702248009478, 4.564075967742912]
+J_{yy}:  0.0255469808188296 kg*m^2
+
+
+
+Jzz
+Number of files: 20
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_01.bag
+[ 420  886 1336 1781 2222]
+Time diff avg: 13.366492986679077
+The number of peaks: 3
+natural frequency:  1.4102095396544219
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_02.bag
+[ 445  913 1365 1811 2254]
+Time diff avg: 13.423097133636475
+The number of peaks: 3
+natural frequency:  1.404262796721057
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_03.bag
+[ 442  915 1368 1815 2258]
+Time diff avg: 13.438646793365479
+The number of peaks: 3
+natural frequency:  1.4026379449785518
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_04.bag
+[ 423  892 1344 1790 2233]
+Time diff avg: 13.414721727371216
+The number of peaks: 3
+natural frequency:  1.405139540321465
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_05.bag
+[ 447  919 1369 1813 2252]
+Time diff avg: 13.344888925552368
+The number of peaks: 3
+natural frequency:  1.41249253003869
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_06.bag
+[ 419  879 1316 1747 2178]
+Time diff avg: 13.019771099090576
+The number of peaks: 3
+natural frequency:  1.447764002767713
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_07.bag
+[ 423  874 1310 1740 2169]
+Time diff avg: 12.95344591140747
+The number of peaks: 3
+natural frequency:  1.4551769506320222
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_08.bag
+[ 424  884 1323 1754 2184]
+Time diff avg: 13.002237558364868
+The number of peaks: 3
+natural frequency:  1.4497163151285506
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_09.bag
+[ 433  894 1334 1766]
+Time diff avg: 8.73499608039856
+The number of peaks: 2
+natural frequency:  1.4386234977893424
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_10.bag
+[ 426  892 1334 1768 2197]
+Time diff avg: 13.057196140289307
+The number of peaks: 3
+natural frequency:  1.443614365520369
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_01.bag
+[ 568 1146 1714 2261 2798]
+Time diff avg: 16.531811952590942
+The number of peaks: 3
+natural frequency:  1.1401990281279826
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_02.bag
+[ 563 1149 1736 2312]
+Time diff avg: 11.628910064697266
+The number of peaks: 2
+natural frequency:  1.080614653002419
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_03.bag
+[ 591 1195 1782 2364 2944]
+Time diff avg: 17.518211841583252
+The number of peaks: 3
+natural frequency:  1.0759977155199867
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_04.bag
+[ 576 1180 1763 2341 2914 3489]
+Time diff avg: 23.114436864852905
+The number of peaks: 4
+natural frequency:  1.087317911990078
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_05.bag
+[ 572 1170 1750 2328 2900]
+Time diff avg: 17.31447458267212
+The number of peaks: 3
+natural frequency:  1.0886588461888937
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_06.bag
+[ 579 1182 1762 2336 2903]
+Time diff avg: 17.24354362487793
+The number of peaks: 3
+natural frequency:  1.09313702169337
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_07.bag
+[ 614 1224 1806 2378]
+Time diff avg: 11.555874109268188
+The number of peaks: 2
+natural frequency:  1.0874444023477663
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_08.bag
+[ 591 1195 1776 2347]
+Time diff avg: 11.52352786064148
+The number of peaks: 2
+natural frequency:  1.0904968310337944
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_09.bag
+[ 592 1200 1780 2351]
+Time diff avg: 11.523919820785522
+The number of peaks: 2
+natural frequency:  1.0904597402433673
+******************************************************
+******************************************************
+Reading bag file: bag/J_zz_data_imu_only/imu_weight_10.bag
+[ 583 1185 1765 2334]
+Time diff avg: 11.495414733886719
+The number of peaks: 2
+natural frequency:  1.0931637444376356
+******************************************************
+natual frequency for Jzz:  1.4269637483552184
+natual frequency for Jzz + alpha:  1.0927489894585294
+J_{zz}:  0.04144386955845343 kg*m^2
