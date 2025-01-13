@@ -134,7 +134,7 @@ if __name__ == '__main__':
         natual_freq_0.append(w_n)
 
         if np.mod(j,10) == 0:
-            plt.plot(time,phi, label = 'Raw data')
+            plt.plot(time,phi)
 
             Num_of_peaks = len(peak_indices)
             phi_peak = np.zeros(Num_of_peaks)
@@ -159,7 +159,7 @@ if __name__ == '__main__':
 natural_freq_avg = np.average(natual_freq_0)
 
 
-print('natual frequency for Jxx: ', natual_freq_0)
+print('natual frequency for Jxx: ', natural_freq_avg)
 
 m = 2.190
 g = 9.81

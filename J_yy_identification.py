@@ -125,7 +125,7 @@ if __name__ == '__main__':
             theta_temp = theta_temp*180.0/np.pi
             theta.append(theta_temp)
 
-        peak_indices, _ = find_peaks(theta, height = -0.18)
+        peak_indices, _ = find_peaks(theta, height = -0.18*180/np.pi)
 
         print(peak_indices)
 
@@ -171,7 +171,7 @@ if __name__ == '__main__':
 natural_freq_avg = np.average(natual_freq_0)
 
 
-print('natual frequency for Jyy: ', natual_freq_0)
+print('natual frequency for Jyy: ', natural_freq_avg)
 
 m = 2.190
 g = 9.81

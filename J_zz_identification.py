@@ -156,7 +156,10 @@ if __name__ == '__main__':
                 i = i + 1
 
             plt.plot(time_peak, psi_peak, '*', color='r', label=r'$\psi_{peak}$')
-            plt.title(r'$\psi$ - time')
+            if j < 10:
+                plt.title(r'$\psi$ - time (Before weight is added)')
+            else:
+                plt.title(r'$\psi$ - time (Weight is added)')
             plt.xlabel('time (s)')
             plt.ylabel(r'$\psi$ (deg)')
             plt.grid('True')
@@ -165,18 +168,18 @@ if __name__ == '__main__':
 
         j+=1
 
-natual_freq_0 = np.average(natual_freq_0)
+natual_freq_0_avg = np.average(natual_freq_0)
 
-natual_freq_weight = np.average(natual_freq_weight)
+natual_freq_weight_avg = np.average(natual_freq_weight)
 
-print('natual frequency for Jzz: ', natual_freq_0)
-print('natual frequency for Jzz + alpha: ', natual_freq_weight)
+print('natual frequency for Jzz: ', natual_freq_0_avg)
+print('natual frequency for Jzz + alpha: ', natual_freq_weight_avg)
 
 J_alpha = 2518.74e-6
 m = 0.510
 l = 0.308/2.0
 
 J_alpha_COM = 2*(J_alpha + m * l**2)
-J_zz = natual_freq_weight**2 / (natual_freq_0**2 - natual_freq_weight**2) * J_alpha_COM
+J_zz = natual_freq_weight_avg**2 / (natual_freq_0_avg**2 - natual_freq_weight_avg**2) * J_alpha_COM
 
 print('J_{zz}: ', J_zz, r'kg*m^2')
