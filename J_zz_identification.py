@@ -182,4 +182,5 @@ l = 0.308/2.0
 J_alpha_COM = 2*(J_alpha + m * l**2)
 J_zz = natual_freq_weight_avg**2 / (natual_freq_0_avg**2 - natual_freq_weight_avg**2) * J_alpha_COM
 
+print('Delta J: ',J_alpha_COM)
 print('J_{zz}: ', J_zz, r'kg*m^2')
